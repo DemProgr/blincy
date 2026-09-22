@@ -348,4 +348,9 @@ export const contacts = {
   instagram: "https://www.instagram.com/blincy.kastrycnickaja",
   instagramHandle: "@blincy.kastrycnickaja",
   mapUrl: "https://2gis.by/minsk/firm/70000001042224265",
+  mapUrls: {
+    yandex: "https://yandex.ru/maps/?text=ул. Октябрьская 23 Минск",
+    "2gis": "https://2gis.by/minsk/firm/70000001042224265",
+    google: "https://www.google.com/maps/search/?api=1&query=ул. Октябрьская 23 Минск",
+  },
 };
