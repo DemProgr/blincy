@@ -60,20 +60,23 @@ export function useSelection() {
     });
   }, []);
 
-  const updateQuantity = useCallback((id: number, quantity: number) => {
-    if (quantity <= 0) {
-      removeItem(id);
-      return;
-    }
-    setSelectedItems((prev) => {
-      const next = new Map(prev);
-      const existing = next.get(id);
-      if (existing) {
-        next.set(id, { ...existing, quantity });
+  const updateQuantity = useCallback(
+    (id: number, quantity: number) => {
+      if (quantity <= 0) {
+        removeItem(id);
+        return;
       }
-      return next;
-    });
-  }, []);
+      setSelectedItems((prev) => {
+        const next = new Map(prev);
+        const existing = next.get(id);
+        if (existing) {
+          next.set(id, { ...existing, quantity });
+        }
+        return next;
+      });
+    },
+    [removeItem],
+  );
 
   const clearSelection = useCallback(() => {
     setSelectedItems(new Map());

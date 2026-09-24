@@ -3,7 +3,6 @@ import { useState } from "react";
 
 import { MapSelector } from "@/components/MapSelector";
 import { MenuView } from "@/components/MenuView";
-import { ChooseHelper } from "@/components/ChooseHelper";
 import { Reveal } from "@/components/Reveal";
 import { contacts } from "@/lib/menu-data";
 
@@ -62,7 +61,6 @@ const navLinks = [
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showChooseHelper, setShowChooseHelper] = useState(false);
 
   return (
     <div className="overflow-x-hidden">
@@ -160,15 +158,6 @@ function Index() {
 
         <section id="menu" className="relative">
           <MenuView />
-          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 sm:bottom-28">
-            <button
-              type="button"
-              onClick={() => setShowChooseHelper(true)}
-              className="btn-primary flex items-center gap-2 px-6 py-3 text-base shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500 delay-500"
-            >
-              <span className="text-[0.7rem] tracking-[0.1em] uppercase">Помоги выбрать</span>
-            </button>
-          </div>
         </section>
 
         <section id="visit" className="surface-dark py-16 sm:py-24">
@@ -232,10 +221,6 @@ function Index() {
           </a>
         </div>
       </footer>
-
-      {showChooseHelper && (
-        <ChooseHelper onClose={() => setShowChooseHelper(false)} onAddItem={() => {}} />
-      )}
     </div>
   );
 }

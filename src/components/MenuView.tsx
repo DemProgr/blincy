@@ -2,13 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { ChevronDown, X, Filter, Sparkles, Plus, Minus, Check } from "lucide-react";
-import {
-  allMenuSections,
-  allMenuItems,
-  type MenuItem,
-  type MenuTag,
-  getDrinkSuggestions,
-} from "@/lib/menu-data";
+import { allMenuSections, allMenuItems, type MenuItem, type MenuTag } from "@/lib/menu-data";
 import { useSelection } from "@/hooks/use-selection";
 import { Reveal } from "@/components/Reveal";
 
@@ -30,10 +24,6 @@ const FILTER_CHIPS: { tag: MenuTag; label: string }[] = [
 export function MenuView() {
   const [filters, setFilters] = useState<FilterState>({ tags: [], search: "" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [showDrinkSuggestion, setShowDrinkSuggestion] = useState<{
-    blinId: number;
-    drinks: MenuItem[];
-  } | null>(null);
   const {
     selectedItems,
     addItem,
@@ -83,16 +73,6 @@ export function MenuView() {
   const handleAddItem = useCallback(
     (item: MenuItem) => {
       addItem(item);
-      if (
-        item.category !== "coffee" &&
-        item.category !== "house-drinks" &&
-        item.category !== "drinks"
-      ) {
-        const drinks = getDrinkSuggestions(item.id);
-        if (drinks.length > 0) {
-          setShowDrinkSuggestion({ blinId: item.id, drinks });
-        }
-      }
     },
     [addItem],
   );
@@ -184,15 +164,6 @@ export function MenuView() {
           onOpen={() => {}}
           items={getSelectionForDisplay()}
           onClose={close}
-        />
-      ) : null}
-
-      {showDrinkSuggestion ? (
-        <DrinkSuggestionSheet
-          blinId={showDrinkSuggestion.blinId}
-          drinks={showDrinkSuggestion.drinks}
-          onAdd={addItem}
-          onClose={() => setShowDrinkSuggestion(null)}
         />
       ) : null}
     </div>
