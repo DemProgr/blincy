@@ -66,11 +66,7 @@
   --ink: oklch(0.145 0.006 50);
   --cream: oklch(0.965 0.008 88);
   --shadow-soft: 0 24px 60px -30px oklch(0.238 0.024 45 / 0.35);
-  --gradient-warm: linear-gradient(
-    135deg,
-    oklch(0.63 0.135 55 / 0.16),
-    oklch(0.968 0.014 84 / 0)
-  );
+  --gradient-warm: linear-gradient(135deg, oklch(0.63 0.135 55 / 0.16), oklch(0.968 0.014 84 / 0));
 }
 
 @layer base {

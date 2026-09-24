@@ -7,4 +7,3 @@ const router = getRouter();
 
 const root = createRoot(document.getElementById("app")!);
 root.render(<RouterProvider router={router} />);
-
