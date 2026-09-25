@@ -103,16 +103,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  // NOTE: ShellComponent mounts INSIDE div#app (see Match.tsx), so it must
+  // not emit <html>/<head>/<body> — that nests document tags and breaks
+  // hydration ("<html> cannot be a child of <div>"). The real document
+  // already exists in index.html (static SPA). React 19 hoists head tags
+  // rendered by HeadContent into <head> automatically.
   return (
-    <html lang="ru">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
+    <>
+      <HeadContent />
+      {children}
+      <Scripts />
+    </>
   );
 }
 
