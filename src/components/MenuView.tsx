@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Filter, X, ChevronDown, Plus, Minus, Check } from "lucide-react";
 import { allMenuItems, type MenuItem } from "@/lib/menu-data";
 import { useSelection } from "@/hooks/use-selection";
@@ -13,7 +13,6 @@ type FilterState = {
 export function MenuView() {
   const [filters, setFilters] = useState<FilterState>({ search: "" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const {
     selectedItems,
     addItem,
@@ -24,16 +23,6 @@ export function MenuView() {
     getSelectionForDisplay,
     close,
   } = useSelection();
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
-        searchInputRef.current.blur();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const filteredItems = useMemo(() => {
     return allMenuItems.filter((item) => {
@@ -62,12 +51,11 @@ export function MenuView() {
 
   return (
     <div className="flex flex-col min-h-0">
-      <div className="sticky top-20 z-40 bg-ink/95 backdrop-blur-md border-b border-cream/10 px-5 py-3">
+      <div className="bg-ink/95 backdrop-blur-md border-b border-cream/10 px-5 py-3">
         <div className="flex flex-col gap-3">
           <div className="relative">
             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-cream/40 size-4" />
             <input
-              ref={searchInputRef}
               type="search"
               placeholder="Поиск по блинам..."
               value={filters.search}
