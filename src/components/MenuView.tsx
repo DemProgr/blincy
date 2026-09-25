@@ -9,9 +9,12 @@ type FilterState = {
   search: string;
 };
 
+const PAGE_SIZE = 15;
+
 export function MenuView() {
   const [filters, setFilters] = useState<FilterState>({ search: "" });
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const {
     selectedItems,
     addItem,
@@ -36,6 +39,19 @@ export function MenuView() {
 
   const clearFilters = useCallback(() => {
     setFilters({ search: "" });
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const handleSearchChange = useCallback((value: string) => {
+    setFilters({ search: value });
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const visibleItems = filteredItems.slice(0, visibleCount);
+  const remainingCount = filteredItems.length - visibleItems.length;
+
+  const showMore = useCallback(() => {
+    setVisibleCount((prev) => prev + PAGE_SIZE);
   }, []);
 
   const handleAddItem = useCallback(
@@ -58,7 +74,7 @@ export function MenuView() {
               type="search"
               placeholder="Поиск по блинам..."
               value={filters.search}
-              onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-cream/5 border border-cream/20 rounded-lg text-cream placeholder-cream/40 text-sm focus:outline-none focus:border-accent"
             />
           </div>
@@ -81,12 +97,18 @@ export function MenuView() {
           </div>
         )}
 
+        {filteredItems.length > 0 && (
+          <p className="mb-4 text-xs text-cream/50">
+            Показано {visibleItems.length} из {filteredItems.length}
+          </p>
+        )}
+
         <div className="space-y-4">
-          {filteredItems.map((item, index) => (
+          {visibleItems.map((item, index) => (
             <div
               key={item.id}
               className="group relative bg-cream/3 border border-cream/10 rounded-lg overflow-hidden transition-all animate-in fade-in slide-in-from-top-2 duration-200"
-              style={{ animationDelay: `${index * 30}ms` }}
+              style={{ animationDelay: `${(index % PAGE_SIZE) * 30}ms` }}
             >
               <div
                 role="button"
@@ -153,6 +175,12 @@ export function MenuView() {
             </div>
           ))}
         </div>
+
+        {remainingCount > 0 && (
+          <button type="button" onClick={showMore} className="btn-primary mt-6 w-full !px-6 !py-3">
+            Показать ещё ({remainingCount})
+          </button>
+        )}
       </div>
 
       {totalCount > 0 ? (
