@@ -88,7 +88,7 @@ export function MenuView() {
               <div className="group relative bg-cream/3 border border-cream/10 rounded-lg overflow-hidden transition-all">
                 <button
                   type="button"
-                  onClick={(() => setExpandedId((prev) => (prev === item.id ? null : item.id)))()}
+                  onClick={() => setExpandedId((prev) => (prev === item.id ? null : item.id))}
                   className="w-full p-4 flex items-start gap-3 text-left"
                   aria-expanded={expandedId === item.id}
                 >
