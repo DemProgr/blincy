@@ -88,10 +88,17 @@ export function MenuView() {
               className="group relative bg-cream/3 border border-cream/10 rounded-lg overflow-hidden transition-all animate-in fade-in slide-in-from-top-2 duration-200"
               style={{ animationDelay: `${index * 30}ms` }}
             >
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => setExpandedId((prev) => (prev === item.id ? null : item.id))}
-                className="w-full p-4 flex items-start gap-3 text-left"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedId((prev) => (prev === item.id ? null : item.id));
+                  }
+                }}
+                className="w-full cursor-pointer p-4 flex items-start gap-3 text-left"
                 aria-expanded={expandedId === item.id}
               >
                 <span className="shrink-0 font-display text-xl tabular-nums text-accent font-bold leading-none">
@@ -136,7 +143,7 @@ export function MenuView() {
                     className={`size-4 text-ink/40 transition-transform ${expandedId === item.id ? "rotate-180" : ""}`}
                   />
                 </div>
-              </button>
+              </div>
 
               {expandedId === item.id && (
                 <div className="border-t border-cream/10 px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
