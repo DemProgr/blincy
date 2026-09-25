@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Filter, X, ChevronDown, Plus, Minus, Check } from "lucide-react";
+import { Filter, X, ChevronDown, Plus, Minus } from "lucide-react";
 import { allMenuItems, type MenuItem } from "@/lib/menu-data";
 import { useSelection } from "@/hooks/use-selection";
-import { Reveal } from "@/components/Reveal";
 
 type FilterState = {
   search: string;
@@ -83,68 +82,68 @@ export function MenuView() {
         )}
 
         <div className="space-y-4">
-          {filteredItems.map((item) => (
-            <Reveal key={item.id} delay={item.id * 50}>
-              <div className="group relative bg-cream/3 border border-cream/10 rounded-lg overflow-hidden transition-all">
-                <button
-                  type="button"
-                  onClick={() => setExpandedId((prev) => (prev === item.id ? null : item.id))}
-                  className="w-full p-4 flex items-start gap-3 text-left"
-                  aria-expanded={expandedId === item.id}
-                >
-                  <span className="shrink-0 font-display text-xl tabular-nums text-accent font-bold leading-none">
-                    {item.id}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-leading-snug pr-8">
-                      {item.name.split(",").slice(0, 3).join(", ")}
+          {filteredItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="group relative bg-cream/3 border border-cream/10 rounded-lg overflow-hidden transition-all animate-in fade-in slide-in-from-top-2 duration-200"
+              style={{ animationDelay: `${index * 30}ms` }}
+            >
+              <button
+                type="button"
+                onClick={() => setExpandedId((prev) => (prev === item.id ? null : item.id))}
+                className="w-full p-4 flex items-start gap-3 text-left"
+                aria-expanded={expandedId === item.id}
+              >
+                <span className="shrink-0 font-display text-xl tabular-nums text-accent font-bold leading-none">
+                  {item.id}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-leading-snug pr-8">
+                    {item.name.split(",").slice(0, 3).join(", ")}
+                  </p>
+                  {item.desc && (
+                    <p className="mt-1.5 text-[0.8rem] leading-relaxed text-ink/60">{item.desc}</p>
+                  )}
+                  {item.volume && (
+                    <p className="mt-1 text-[0.7rem] tracking-widest uppercase text-ink/40">
+                      {item.volume}
                     </p>
-                    {item.desc && (
-                      <p className="mt-1.5 text-[0.8rem] leading-relaxed text-ink/60">
-                        {item.desc}
-                      </p>
-                    )}
-                    {item.volume && (
-                      <p className="mt-1 text-[0.7rem] tracking-widest uppercase text-ink/40">
-                        {item.volume}
-                      </p>
-                    )}
-                  </div>
-                  <div className="shrink-0 flex items-center gap-2">
-                    <span className="font-display text-lg tabular-nums text-ink">
-                      {item.price} BYN
-                    </span>
-                    {isSelected(item.id) ? (
-                      <QuantityControl
-                        quantity={getQuantity(item.id)}
-                        onIncrement={() => updateQuantity(item.id, getQuantity(item.id) + 1)}
-                        onDecrement={() => updateQuantity(item.id, getQuantity(item.id) - 1)}
-                      />
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddItem(item);
-                        }}
-                        className="btn-primary !px-4 !py-2 text-sm"
-                      >
-                        <Plus className="size-4" />
-                      </button>
-                    )}
-                    <ChevronDown
-                      className={`size-4 text-ink/40 transition-transform ${expandedId === item.id ? "rotate-180" : ""}`}
+                  )}
+                </div>
+                <div className="shrink-0 flex items-center gap-2">
+                  <span className="font-display text-lg tabular-nums text-ink">
+                    {item.price} BYN
+                  </span>
+                  {isSelected(item.id) ? (
+                    <QuantityControl
+                      quantity={getQuantity(item.id)}
+                      onIncrement={() => updateQuantity(item.id, getQuantity(item.id) + 1)}
+                      onDecrement={() => updateQuantity(item.id, getQuantity(item.id) - 1)}
                     />
-                  </div>
-                </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddItem(item);
+                      }}
+                      className="btn-primary !px-4 !py-2 text-sm"
+                    >
+                      <Plus className="size-4" />
+                    </button>
+                  )}
+                  <ChevronDown
+                    className={`size-4 text-ink/40 transition-transform ${expandedId === item.id ? "rotate-180" : ""}`}
+                  />
+                </div>
+              </button>
 
-                {expandedId === item.id && (
-                  <div className="border-t border-cream/10 px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <p className="text-sm text-ink/60">ID: {item.id}</p>
-                  </div>
-                )}
-              </div>
-            </Reveal>
+              {expandedId === item.id && (
+                <div className="border-t border-cream/10 px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <p className="text-sm text-ink/60">ID: {item.id}</p>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
