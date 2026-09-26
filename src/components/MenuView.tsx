@@ -273,8 +273,8 @@ export function MenuView() {
               </div>
 
               {expandedId === item.id && (
-                <div className="border-t border-cream/10 px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <p className="text-sm text-ink/60">ID: {item.id}</p>
+                <div className="border-t border-cream/10 px-4 pb-4 pt-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <p className="text-sm leading-relaxed text-ink/70">{item.name}</p>
                 </div>
               )}
             </div>
