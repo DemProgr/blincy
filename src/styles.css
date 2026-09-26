@@ -109,6 +109,13 @@
   box-shadow: var(--shadow-soft);
 }
 
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility btn-primary {
   display: inline-flex;
   align-items: center;
